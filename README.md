@@ -19,6 +19,15 @@ A FastAPI server that verifies if a GitHub repository is TypeScript/JavaScript b
 3. Install dependencies:
    ```
    pip install -r requirements.txt
+
+4. Set up environment variables:
+   ```bash
+   # Copy the example environment file
+   cp .env.example .env
+
+   # Edit .env with your GitHub credentials
+   # Required variables:
+   # - GITHUB_TOKEN: Your GitHub Personal Access Token
    ```
 
 ## Running the Server
