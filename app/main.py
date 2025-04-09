@@ -76,9 +76,6 @@ async def verify_repository(request: RepoRequest):
     owner, repo = path_parts[0], path_parts[1]
     repo_full_name = f"{owner}/{repo}"
     
-    print(f"\n=== Repository Analysis ===")
-    print(f"Repository: {repo_full_name}")
-    
     # Call GitHub API to get repository languages
     async with httpx.AsyncClient() as client:
         try:
@@ -94,12 +91,6 @@ async def verify_repository(request: RepoRequest):
                 )
                 
             languages = response.json()
-            
-            # Print languages information
-            print("Languages:")
-            for lang, bytes_count in languages.items():
-                print(f"- {lang}: {bytes_count:,} bytes")
-            print("=====================\n")
             
             # Check if repo contains JavaScript or TypeScript
             is_js_ts = any(lang.lower() in ["javascript", "typescript"] for lang in languages.keys())
@@ -123,21 +114,10 @@ async def process_js_ts_repository(github_url: str):
     verification_result = await verify_repository(RepoRequest(github_url=github_url))
     
     if not verification_result.is_javascript_typescript:
-        print("\n❌ Error: Repository is not TypeScript/JavaScript based")
-        print("Please enter a GitHub repository URL that contains TypeScript or JavaScript code")
-        print(f"Current repository languages: {', '.join(verification_result.languages.keys())}\n")
         raise HTTPException(
             status_code=400,
             detail="Repository must be TypeScript/JavaScript based"
         )
-    
-    print("\n✅ Valid TypeScript/JavaScript repository!")
-    print(f"Processing repository: {verification_result.repository}")
-    print("TypeScript/JavaScript files found:")
-    for lang, bytes_count in verification_result.languages.items():
-        if lang.lower() in ["javascript", "typescript"]:
-            print(f"- {lang}: {bytes_count:,} bytes")
-    print("=====================\n")
     
     # Return the processed result
     return {
@@ -224,7 +204,6 @@ async def convert_to_async(request: RepoRequest):
                     if function.filepath not in set(cf.file_path for cf in converted_functions):
                         conversion_stats["files_modified"] += 1
                 except Exception as e:
-                    print(f"Error converting promises in {function.name}: {str(e)}")
                     continue
         
         # Commit changes if any functions were converted
