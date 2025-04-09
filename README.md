@@ -64,4 +64,20 @@ curl -X POST "http://127.0.0.1:8000/verify" -d "github_url=https://github.com/us
 
 Interactive API documentation is available at:
 - Swagger UI: http://127.0.0.1:8000/docs
-- ReDoc: http://127.0.0.1:8000/redoc 
+- ReDoc: http://127.0.0.1:8000/redoc
+
+## GitHub Authentication
+
+The API requires a GitHub Personal Access Token to create pull requests. This should be set in your `.env` file:
+
+1. Create a GitHub Personal Access Token:
+   - Go to GitHub Settings > Developer Settings > Personal Access Tokens
+   - Generate a new token with 'repo' scope
+   - Copy the token
+
+2. Set up your .env file:
+   ```env
+   GITHUB_TOKEN=your_github_personal_access_token
+   ```
+
+3. The API will automatically use this token when creating pull requests 
