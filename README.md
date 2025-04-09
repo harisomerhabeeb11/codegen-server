@@ -2,6 +2,12 @@
 
 A FastAPI server that verifies if a GitHub repository is TypeScript/JavaScript based.
 
+## Requirements
+
+- Python 3.12 or higher
+- pip or uv package manager
+- GitHub Personal Access Token with repo scope
+
 ## Setup
 
 1. Clone the repository
